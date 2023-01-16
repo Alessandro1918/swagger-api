@@ -1,0 +1,23 @@
+{
+  "name": "swagger-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alessandro1918/swagger-api.git"
+  },
+  "author": "Ale B. C.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alessandro1918/swagger-api/issues"
+  },
+  "homepage": "https://github.com/Alessandro1918/swagger-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
