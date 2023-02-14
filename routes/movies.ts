@@ -40,4 +40,5 @@ routes.delete("/:movieID", (req, res) => {
   res.status(204).send("Movie deleted")
 })
 
-module.exports = routes
+// module.exports = routes          //js
+export { routes as moviesRoutes }   //ts
