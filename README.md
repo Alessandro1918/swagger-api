@@ -3,6 +3,10 @@
 ## 🚀 Projeto
 Um exemplo de documentação de rotas de API com Swagger. Especificação de endpoints, parâmetros, retorno, tudo facilmente documentável e consultável em uma página web disponível em uma rota da própria API.
 
+<div align="center">
+    <img src="assets/routes.png" alt="routes" title="routes" width="75%"/>
+</div>
+
 ## 🛠️ Tecnologias
 - [Swagger](https://swagger.io)
 - [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc)
