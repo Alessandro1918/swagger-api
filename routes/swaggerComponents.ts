@@ -2,6 +2,12 @@
  * @swagger
  * components:
  * 
+ *   securitySchemes:
+ *     bearerAuth:            # arbitrary name for the security scheme
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+ * 
  *   schemas:
  * 
  *     # Schema used to list all movies from the db

@@ -1,4 +1,6 @@
 import express from 'express'
+import { verifyJwt } from "../utils/jwt"
+
 const routes = express.Router()
 
 /**
@@ -38,6 +40,8 @@ routes.get("/", (req, res) => {
  *   post:
  *     tags: [ Movies ]
  *     description: Saves a new movie in the db
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       content:
  *         application/json:
@@ -50,14 +54,17 @@ routes.get("/", (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/MovieWrite'
+ *       400:
+ *         description: User access token missing
  *       401:
- *         description: User must authenticate itself to perform this request
+ *         description: User access token expired
  *       403:
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: One or more artists not found
  */
-routes.post("/", (req, res) => {
+routes.post("/", verifyJwt, (req, res) => {
+  console.log("username:", req["username"])   //added to the request by the verifyJwt middleware
   res.status(201).send({
     "id": String(Math.floor(Math.random() * 100)),
     ...req.body
@@ -105,6 +112,8 @@ routes.get("/:movieID", (req, res) => {
  *   put:
  *     tags: [ Movies ]
  *     description: Edit data of a movie
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: movieID
@@ -123,14 +132,16 @@ routes.get("/:movieID", (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/MovieWrite'
+ *       400:
+ *         description: User access token missing
  *       401:
- *         description: User must authenticate itself to perform this request
+ *         description: User access token expired
  *       403:
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: Movie or one or more artists not found
  */
-routes.put("/:movieID", (req, res) => {
+routes.put("/:movieID", verifyJwt, (req, res) => {
   res.status(200).send({
     "id": req.params.movieID,
     ...req.body
@@ -143,6 +154,8 @@ routes.put("/:movieID", (req, res) => {
  *   delete:
  *     tags: [ Movies ]
  *     description: Delete movie from the db
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: movieID
@@ -152,14 +165,16 @@ routes.put("/:movieID", (req, res) => {
  *     responses:
  *       204:
  *         description: Movie deleted from the db
+ *       400:
+ *         description: User access token missing
  *       401:
- *         description: User must authenticate itself to perform this request
+ *         description: User access token expired
  *       403:
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: Movie not found
  */
-routes.delete("/:movieID", (req, res) => {
+routes.delete("/:movieID", verifyJwt, (req, res) => {
   res.status(204).send("Movie deleted")
 })
 
