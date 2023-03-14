@@ -1,9 +1,12 @@
+import 'dotenv/config'
+
 // js:
 const express = require("express")
 // const moviesRoutes = require("./routes/movies")
 // ts:
 // import express, { json as expressJson } from 'express'
 import { moviesRoutes } from './routes/movies'
+import { authRoutes } from './routes/auth'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
@@ -26,6 +29,8 @@ const app = express()
 
 app.use(express.json())     //js
 // app.use(expressJson)     //ts
+
+app.use("/users", authRoutes)
 
 app.use("/movies", moviesRoutes)
 
