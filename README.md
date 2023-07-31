@@ -4,10 +4,9 @@
 <img src="https://miro.medium.com/v2/resize:fit:200/format:webp/0*otsfLuH8efGUeedm.png"/>
 </div>
 -->
-
-![](https://tokei.rs/b1/github/Alessandro1918/swagger-api)
-![](https://tokei.rs/b1/github/Alessandro1918/swagger-api?category=code)
-![](https://tokei.rs/b1/github/Alessandro1918/swagger-api?category=comments)
+![](https://sloc.xyz/github/Alessandro1918/swagger-api/)
+![](https://sloc.xyz/github/Alessandro1918/swagger-api?category=code)
+![](https://sloc.xyz/github/Alessandro1918/swagger-api?category=comments)
 
 ## 🚀 Projeto
 Um exemplo de documentação de rotas de API com Swagger. Especificação de endpoints, parâmetros, retorno, tudo facilmente documentável e consultável em uma página web disponível em uma rota da própria API.
