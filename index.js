@@ -34,3 +34,7 @@ app.use("/movies", moviesRoutes)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))   //route to serve the documentation (localhost:4000/api-docs)
 
 app.listen(PORT, () => console.log(`App running on http://localhost:${PORT}`))
+
+//In order for Vercel to turn Express into a serverless function,
+//you have to export the Express instance for Vercel's build process
+module.exports = app
