@@ -29,15 +29,13 @@ function verifyJwt(req, res, next) {                                            
   try {
     const token = req.headers["authorization"]?.split("Bearer ")[1]
     if (!token) {
-      res
-        .status(400)        //BAD_REQUEST
-        .send("No token")
-      return                //nor "next" or "res.send" finish the middleware on its own. Line not necessary if the code I'm trying to jump to was in the "else" of the "if (!token)" check
+      res.status(400).send("No token")        //BAD_REQUEST
+      return                                  //nor "next" or "res.send" finish the middleware on its own. Line not necessary if the code I'm trying to jump to was in the "else" of the "if (!token)" check
     }
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     // console.log({decoded})
-    req.username = decoded.username          //add username to the request
-    next()                                   //I can't just "return" like a function call. This is a middleware; I have to "continue"
+    req.username = decoded.username           //add username to the request
+    next()                                    //I can't just "return" like a function call. This is a middleware; I have to "continue"
   } catch (error) {
     console.log(error.name)
     if (error.name === "TokenExpiredError") {
@@ -48,4 +46,4 @@ function verifyJwt(req, res, next) {                                            
   }
 }
 
-module.exports = createJwt, verifyJwt         //JS only. On TS I export each function individually
+module.exports = { createJwt, verifyJwt }     //JS only. On TS I export each function individually

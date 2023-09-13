@@ -1,5 +1,5 @@
 const express = require("express")
-const createJwt = require("../utils/jwt")
+const { createJwt } = require("../utils/jwt")
 const rateLimit = require("../utils/rateLimit")
 
 const routes = express.Router()
