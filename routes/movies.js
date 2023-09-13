@@ -1,6 +1,6 @@
-import express from "express"
-import { verifyJwt } from "../utils/jwt"
-import { rateLimit } from "../utils/rateLimit"
+const express = require("express")
+const verifyJwt = require("../utils/jwt")
+const rateLimit = require("../utils/rateLimit")
 
 const routes = express.Router()
 
@@ -189,5 +189,5 @@ routes.delete("/:movieID", rateLimit, verifyJwt, (req, res) => {
   res.status(204).send("Movie deleted")
 })
 
-// module.exports = routes          //js
-export { routes as moviesRoutes }   //ts
+module.exports = routes                 //JS
+// export { routes as moviesRoutes }    //TS

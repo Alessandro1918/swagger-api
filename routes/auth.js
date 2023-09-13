@@ -1,5 +1,6 @@
-import express from "express"
-import { createJwt } from "../utils/jwt"
+const express = require("express")
+const createJwt = require("../utils/jwt")
+const rateLimit = require("../utils/rateLimit")
 
 const routes = express.Router()
 
@@ -40,7 +41,7 @@ const routes = express.Router()
  *       404:
  *         description: User not found or wrong password
  */
-routes.post("/login", (req, res) => {
+routes.post("/login", rateLimit, (req, res) => {
   if (
     req.body.username !== "alessandro" ||
     req.body.password !== "1234"
@@ -60,4 +61,5 @@ routes.post("/login", (req, res) => {
     })
 })
 
-export { routes as authRoutes }
+module.exports = routes              //JS
+// export { routes as authRoutes }   //TS

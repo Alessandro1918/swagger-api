@@ -1,14 +1,12 @@
-import "dotenv/config"
+// import "dotenv/config"     //TS
+require('dotenv').config()    //JS
 
-// js:
 const express = require("express")
-// const moviesRoutes = require("./routes/movies")
-// ts:
-// import express, { json as expressJson } from "express"
-import { moviesRoutes } from "./routes/movies"
-import { authRoutes } from "./routes/auth"
-import swaggerJsdoc from "swagger-jsdoc"
-import swaggerUi from "swagger-ui-express"
+// import { moviesRoutes } from "./routes/movies"   //TS
+const moviesRoutes = require("./routes/movies")     //JS
+const authRoutes = require("./routes/auth")
+const swaggerJsdoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express")
 
 const PORT = process.env.PORT || 4000
 
@@ -21,14 +19,13 @@ const swaggerOptions = {
       servers: ["http://localhost:4000"]  //path of the server available to test the requests
     },
   },
-  apis: ["./routes/*.ts"],                //files with Swagger annotations
+  apis: ["./routes/*.js"],                //files with Swagger annotations
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions)
 
 const app = express()
 
-app.use(express.json())     //js
-// app.use(expressJson)     //ts
+app.use(express.json())
 
 app.use("/users", authRoutes)
 
