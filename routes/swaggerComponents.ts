@@ -20,7 +20,7 @@
  *             properties:
  *               id:
  *                 type: string
- *           example: [id: '1', id: '2', id: '3']
+ *           example: [id: "1", id: "2", id: "3"]
  * 
  * 
  *     # Schema used for POST, PUT movies
@@ -28,7 +28,7 @@
  *       properties:
  *         id:
  *           type: string
- *           example: '1'                # Property-level example
+ *           example: "1"                # Property-level example
  *           readOnly: true              # Note: an Object-level example will cancel the "readOnly" effect
  *         title:
  *           type: string
@@ -43,7 +43,7 @@
  *             properties:
  *               id:
  *                 type: string
- *           example: [id: '1', id: '2', id: '3']
+ *           example: [id: "1", id: "2", id: "3"]
  *       required:
  *         - title
  *         - year
@@ -57,7 +57,7 @@
  *       properties:
  *         id:
  *           type: string
- *           example: '1'
+ *           example: "1"
  *         title:
  *           type: string
  *           example: De Volta para o Futuro
@@ -74,8 +74,8 @@
  *               name:
  *                 type: string
  *           example:
- *             - id: '1'
+ *             - id: "1"
  *               name: Christopher Lloyd
- *             - id: '2'
+ *             - id: "2"
  *               name: Michael J. Fox
  */

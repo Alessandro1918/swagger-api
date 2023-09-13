@@ -25,6 +25,10 @@ Um exemplo de documentação de rotas de API com Swagger. Especificação de end
 - [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc)
 - [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 
+## 🧊 Cool features:
+- Login fornece um token JWT para uso nas rotas autenticadas;
+- Limite de acessos por período (Ex.: 60 requests por minuto);
+
 ## 🗂️ Utilização
 
 ### 🐑🐑 Clonando o repositório:
@@ -36,9 +40,9 @@ Um exemplo de documentação de rotas de API com Swagger. Especificação de end
 ### ▶️ Rodando o App:
 
 ```bash
-  $ cd swagger-api
-  $ npm install             #download dependencies to node_modules
-  $ npm run dev             #start the project
+  $ cd swagger-api      #change to that directory 
+  $ npm install         #download dependencies to node_modules
+  $ npm run dev         #start the project
 ```
 
 Consultar a documentação em: [localhost:4000/api-docs](http://localhost:4000/api-docs)

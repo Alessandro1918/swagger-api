@@ -1,5 +1,6 @@
-import express from 'express'
+import express from "express"
 import { verifyJwt } from "../utils/jwt"
+import { rateLimit } from "../utils/rateLimit"
 
 const routes = express.Router()
 
@@ -22,9 +23,11 @@ const routes = express.Router()
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieList'
+ *               $ref: "#/components/schemas/MovieList"
+ *       429:
+ *         description: Too many requests by the period
  */
-routes.get("/", (req, res) => {
+routes.get("/", rateLimit, (req, res) => {
   res.status(200).send({
     "movies": [
       {"id": "11"}, 
@@ -46,14 +49,14 @@ routes.get("/", (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MovieWrite'
+ *             $ref: "#/components/schemas/MovieWrite"
  *     responses:
  *       201:
  *         description: Movie created on the db
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieWrite'
+ *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
@@ -62,8 +65,10 @@ routes.get("/", (req, res) => {
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: One or more artists not found
+ *       429:
+ *         description: Too many requests by the period
  */
-routes.post("/", verifyJwt, (req, res) => {
+routes.post("/", rateLimit, verifyJwt, (req, res) => {
   console.log("username:", req["username"])   //added to the request by the verifyJwt middleware
   res.status(201).send({
     "id": String(Math.floor(Math.random() * 100)),
@@ -89,11 +94,13 @@ routes.post("/", verifyJwt, (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieRead'
+ *               $ref: "#/components/schemas/MovieRead"
  *       404:
  *         description: Movie not found
+ *       429:
+ *         description: Too many requests by the period
  */
-routes.get("/:movieID", (req, res) => {
+routes.get("/:movieID", rateLimit, (req, res) => {
   res.status(200).send({
     "id": String(req.params.movieID),
     "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
@@ -124,14 +131,14 @@ routes.get("/:movieID", (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MovieWrite'
+ *             $ref: "#/components/schemas/MovieWrite"
  *     responses:
  *       200:
  *         description: Movie updated on the db
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieWrite'
+ *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
@@ -140,8 +147,10 @@ routes.get("/:movieID", (req, res) => {
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: Movie or one or more artists not found
+ *       429:
+ *         description: Too many requests by the period
  */
-routes.put("/:movieID", verifyJwt, (req, res) => {
+routes.put("/:movieID", rateLimit, verifyJwt, (req, res) => {
   res.status(200).send({
     "id": req.params.movieID,
     ...req.body
@@ -173,8 +182,10 @@ routes.put("/:movieID", verifyJwt, (req, res) => {
  *         description: User does not have necessary permissions to perform this request
  *       404:
  *         description: Movie not found
+ *       429:
+ *         description: Too many requests by the period
  */
-routes.delete("/:movieID", verifyJwt, (req, res) => {
+routes.delete("/:movieID", rateLimit, verifyJwt, (req, res) => {
   res.status(204).send("Movie deleted")
 })
 

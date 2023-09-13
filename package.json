@@ -21,6 +21,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "limiter": "^2.1.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.0"
   },

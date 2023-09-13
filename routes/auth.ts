@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express"
 import { createJwt } from "../utils/jwt"
 
 const routes = express.Router()
@@ -23,10 +23,10 @@ const routes = express.Router()
  *             properties:
  *               username:
  *                 type: string
- *                 example: 'alessandro'
+ *                 example: "alessandro"
  *               password:
  *                 type: string
- *                 example: '1234'
+ *                 example: "1234"
  *     responses:
  *       200:
  *         description: User found on the db, provided password is valid
@@ -36,7 +36,7 @@ const routes = express.Router()
  *               properties:
  *                 id:
  *                   type: string
- *                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkEiLCJpYXQiOjE2Nzg4MTUwNzQsImV4cCI6MTY3ODgxNTEzNH0.jQKF9Ix1q-3ypW8vhwCfdqHbEWoLrio1ehqS_dT-iWg' 
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkEiLCJpYXQiOjE2Nzg4MTUwNzQsImV4cCI6MTY3ODgxNTEzNH0.jQKF9Ix1q-3ypW8vhwCfdqHbEWoLrio1ehqS_dT-iWg" 
  *       404:
  *         description: User not found or wrong password
  */
