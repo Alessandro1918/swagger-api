@@ -22,12 +22,12 @@ export function createJwt(payload: string) {
 //Check accessToken existence, expiration, content
 export function verifyJwt(req: MyExtendedRequest, res: Response, next: NextFunction) {
   try {
-    const token = req.headers['authorization']?.split("Bearer ")[1]
+    const token = req.headers["authorization"]?.split("Bearer ")[1]
     if (!token) {
       res
         .status(400)  //BAD_REQUEST
         .send("No token")
-      return                                 //nor "next" or "res.send" finish the middleware on its own. Line not necessary if the code I'm trying to jump was in the "else" of the "if (!token)" check
+      return                                 //nor "next" or "res.send" finish the middleware on its own. Line not necessary if the code I'm trying to jump to was in the "else" of the "if (!token)" check
     }
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     // console.log({decoded})

@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express"
 import { verifyJwt } from "../utils/jwt"
 import { rateLimit } from "../utils/rateLimit"
 
@@ -23,7 +23,7 @@ const routes = express.Router()
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieList'
+ *               $ref: "#/components/schemas/MovieList"
  *       429:
  *         description: Too many requests by the period
  */
@@ -49,14 +49,14 @@ routes.get("/", rateLimit, (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MovieWrite'
+ *             $ref: "#/components/schemas/MovieWrite"
  *     responses:
  *       201:
  *         description: Movie created on the db
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieWrite'
+ *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
@@ -94,7 +94,7 @@ routes.post("/", rateLimit, verifyJwt, (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieRead'
+ *               $ref: "#/components/schemas/MovieRead"
  *       404:
  *         description: Movie not found
  *       429:
@@ -131,14 +131,14 @@ routes.get("/:movieID", rateLimit, (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MovieWrite'
+ *             $ref: "#/components/schemas/MovieWrite"
  *     responses:
  *       200:
  *         description: Movie updated on the db
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MovieWrite'
+ *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
