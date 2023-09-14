@@ -13,6 +13,86 @@ const routes = express.Router()
 
 /**
  * @swagger
+ * components:
+ * 
+ *   securitySchemes:
+ *     bearerAuth:            # arbitrary name for the security scheme
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+ * 
+ *   schemas:
+ * 
+ *     # Schema used to list all movies from the db
+ *     MovieList:
+ *       properties:
+ *         movies:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *           example: [id: "1", id: "2", id: "3"]
+ * 
+ *     # Schema used for POST, PUT movies
+ *     MovieWrite:
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "1"                # Property-level example
+ *           readOnly: true              # Property not writen on the user request, but available at the response. Hence, readOnly
+ *         title:
+ *           type: string
+ *           example: Onze Homens e um Segredo
+ *         year:
+ *           type: integer
+ *           example: 2002
+ *         cast:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *           example: [id: "1", id: "2", id: "3"]
+ *       required:
+ *         - title
+ *         - year
+ *         - cast
+ *       #example:                       # Object-level example
+ *       #  ...                          # Note: I can't use Object-level example if my object has 'readOnly' properties
+ * 
+ *     # Schema used for GET movie details
+ *     MovieRead:
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "1"
+ *         title:
+ *           type: string
+ *           example: De Volta para o Futuro
+ *         year:
+ *           type: integer
+ *           example: 1985
+ *         cast:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               name:
+ *                 type: string
+ *           example:
+ *             - id: "1"
+ *               name: Christopher Lloyd
+ *             - id: "2"
+ *               name: Michael J. Fox
+ */
+
+/**
+ * @swagger
  * /movies:
  *   get:
  *     tags: [ Movies ]
