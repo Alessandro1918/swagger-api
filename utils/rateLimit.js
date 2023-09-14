@@ -1,6 +1,7 @@
 //https://www.npmjs.com/package/limiter
-import { Request, Response, NextFunction } from "express"
-import { RateLimiter } from "limiter"
+// import { Request, Response, NextFunction } from "express"    //TS
+// import { RateLimiter } from "limiter"                        //TS
+const RateLimiter = require('limiter').RateLimiter              //JS
 
 const limiter = new RateLimiter({
   tokensPerInterval: 1,   //Allow x request by period
@@ -9,13 +10,17 @@ const limiter = new RateLimiter({
 })
 
 // Immediately send 429 header to client when rate limiting is in effect
-export async function rateLimit(req: Request, res: Response, next: NextFunction) {
+// export async function rateLimit(req: Request, res: Response, next: NextFunction) {   //TS
+async function rateLimit(req, res, next) {                                              //JS
+
   const remainingRequests = await limiter.removeTokens(1)
   if (remainingRequests < 0) {
     res
-      .status(429)  //TOO_MANY_REQUESTS
+      .status(429)    //TOO_MANY_REQUESTS
       .send("Too Many Requests - your IP is being rate limited")
     return
   }
   next()
 }
+
+module.exports = rateLimit    //JS only. On TS I export each function individually
