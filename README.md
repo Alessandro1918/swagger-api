@@ -9,15 +9,25 @@
 ![](https://sloc.xyz/github/Alessandro1918/swagger-api?category=comments)
 
 ## 🚀 Projeto
-Um exemplo de documentação de rotas de API com Swagger. Especificação de endpoints, parâmetros, retorno, tudo facilmente documentável e consultável em uma página web disponível em uma rota da própria API.
+Um exemplo de documentação de rotas de API com Swagger. Especificação de endpoints, parâmetros, retorno, tudo facilmente documentável e consultável em uma página web disponível em uma rota da própria API.</br>
+</br>
+Confira online! [https://swagger-api-kappa.vercel.app/api-docs/](https://swagger-api-kappa.vercel.app/api-docs/)
 
 <div align="center">
-    <img src="assets/routes.png" alt="routes" title="routes" width="75%"/>
+  <a href="https://swagger-api-kappa.vercel.app/api-docs/">
+    <img src="github_assets/routes.png" alt="routes" title="routes" width="75%"/>
+  </a>
 </div>
 <div align="center">
-    <img src="assets/api-auth.png" alt="api-auth" title="api-auth" width="30%"/>
-    <img src="assets/api-put.png" alt="api-put" title="api-put" width="30%"/>
-    <img src="assets/api-delete.png" alt="api-delete" title="api-delete" width="30%"/>
+  <a href="https://swagger-api-kappa.vercel.app/api-docs/">
+    <img src="github_assets/api-auth.png" alt="api-auth" title="api-auth" width="30%"/>
+  </a>
+  <a href="https://swagger-api-kappa.vercel.app/api-docs/">
+    <img src="github_assets/api-put.png" alt="api-put" title="api-put" width="30%"/>
+  </a>
+  <a href="https://swagger-api-kappa.vercel.app/api-docs/">
+    <img src="github_assets/api-delete.png" alt="api-delete" title="api-delete" width="30%"/>
+  </a>
 </div>
 
 ## 🛠️ Tecnologias
@@ -46,3 +56,6 @@ Um exemplo de documentação de rotas de API com Swagger. Especificação de end
 ```
 
 Consultar a documentação em: [localhost:4000/api-docs](http://localhost:4000/api-docs)
+
+## ⭐ Like, Subscribe, Follow
+Curtiu o projeto? Marque esse repositório com uma Estrela ⭐!
