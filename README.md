@@ -35,7 +35,7 @@ Confira online! [https://swagger-api-kappa.vercel.app/api-docs/](https://swagger
 - [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc)
 - [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 
-## 🧊 Cool features:
+## 🧊 Cool features
 - Login fornece um token JWT para uso nas rotas autenticadas;
 - Limite de acessos por período (Ex.: 60 requests por minuto);
 
@@ -57,5 +57,5 @@ Confira online! [https://swagger-api-kappa.vercel.app/api-docs/](https://swagger
 
 Consultar a documentação em: [localhost:4000/api-docs](http://localhost:4000/api-docs)
 
-## ⭐ Like, Subscribe, Follow
+## ⭐ Like, Subscribe, Follow!
 Curtiu o projeto? Marque esse repositório com uma Estrela ⭐!
