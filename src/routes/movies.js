@@ -1,6 +1,6 @@
 const express = require("express")
-const { verifyJwt } = require("../utils/jwt")
-const rateLimit = require("../utils/rateLimit")
+const { verifyJwt } = require("../libs/jwt")
+const rateLimit = require("../libs/rateLimit")
 
 const routes = express.Router()
 

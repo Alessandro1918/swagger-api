@@ -23,7 +23,7 @@ function createJwt(payload) {                       //JS
 }
 
 //Acts as a middleware on protected routes.
-//Check accessToken existence, expiration, content
+//Check accessToken existence, expiration, content.
 // export function verifyJwt(req: MyExtendedRequest, res: Response, next: NextFunction) {   //TS
 function verifyJwt(req, res, next) {                                                        //JS
   try {
