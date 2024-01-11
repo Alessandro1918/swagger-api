@@ -138,10 +138,6 @@ routes.get("/", rateLimit, (req, res) => {
  *     responses:
  *       201:
  *         description: Movie created on the db
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
@@ -155,10 +151,7 @@ routes.get("/", rateLimit, (req, res) => {
  */
 routes.post("/", rateLimit, verifyJwt, (req, res) => {
   console.log("username:", req["username"])   //added to the request by the verifyJwt middleware
-  res.status(201).send({
-    "id": String(Math.floor(Math.random() * 100)),
-    ...req.body
-  })
+  res.status(201).send("Movie created on the db")
 })
 
 /**
@@ -220,10 +213,6 @@ routes.get("/:movieID", rateLimit, (req, res) => {
  *     responses:
  *       200:
  *         description: Movie updated on the db
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/MovieWrite"
  *       400:
  *         description: User access token missing
  *       401:
@@ -236,10 +225,7 @@ routes.get("/:movieID", rateLimit, (req, res) => {
  *         description: Too many requests by the period
  */
 routes.put("/:movieID", rateLimit, verifyJwt, (req, res) => {
-  res.status(200).send({
-    "id": req.params.movieID,
-    ...req.body
-  })
+  res.status(200).send("Movie updated on the db")
 })
 
 /**
@@ -271,7 +257,7 @@ routes.put("/:movieID", rateLimit, verifyJwt, (req, res) => {
  *         description: Too many requests by the period
  */
 routes.delete("/:movieID", rateLimit, verifyJwt, (req, res) => {
-  res.status(204).send("Movie deleted")
+  res.status(204).send("Movie deleted from the db")
 })
 
 module.exports = routes                 //JS
