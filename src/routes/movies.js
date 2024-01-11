@@ -16,6 +16,7 @@ const routes = express.Router()
  * components:
  * 
  *   securitySchemes:
+ * 
  *     bearerAuth:            # arbitrary name for the security scheme
  *       type: http
  *       scheme: bearer
@@ -23,72 +24,59 @@ const routes = express.Router()
  * 
  *   schemas:
  * 
- *     # Schema used to list all movies from the db
- *     MovieList:
- *       properties:
- *         movies:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *           example: [id: "1", id: "2", id: "3"]
- * 
- *     # Schema used for POST, PUT movies
- *     MovieWrite:
- *       properties:
- *         id:
- *           type: string
- *           example: "1"                # Property-level example
- *           readOnly: true              # Property not writen on the user request, but available at the response. Hence, readOnly
- *         title:
- *           type: string
- *           example: Onze Homens e um Segredo
- *         year:
- *           type: integer
- *           example: 2002
- *         cast:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *           example: [id: "1", id: "2", id: "3"]
- *       required:
- *         - title
- *         - year
- *         - cast
- *       #example:                       # Object-level example
- *       #  ...                          # Note: I can't use Object-level example if my object has 'readOnly' properties
- * 
- *     # Schema used for GET movie details
- *     MovieRead:
+ *     # Schema with fields common to every "Movie" query
+ *     MovieDefaultFields:
  *       properties:
  *         id:
  *           type: string
  *           example: "1"
+ *           readOnly: true   # Property not writen on the user request, but available at the response. Hence, readOnly
  *         title:
  *           type: string
  *           example: De Volta para o Futuro
  *         year:
  *           type: integer
  *           example: 1985
- *         cast:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *               name:
- *                 type: string
- *           example:
- *             - id: "1"
- *               name: Christopher Lloyd
- *             - id: "2"
- *               name: Michael J. Fox
+ * 
+ *     # POST, PUT
+ *     MovieWrite:
+ *       allOf:
+ *         - $ref: "#/components/schemas/MovieDefaultFields"
+ *         - properties:
+ *             cast:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *               example: [id: "1", id: "2", id: "3"]   # Property-level example
+ *         #- example:                                  # Object-level example
+ *         #  ...                                       # Note: I can't use Object-level example if my object has 'readOnly' properties
+ *         - required:
+ *           - title
+ *           - year
+ *           - cast
+ *      
+ *     # GET one, GET all
+ *     MovieRead:
+ *       allOf:
+ *         - $ref: "#/components/schemas/MovieDefaultFields"
+ *         - properties:
+ *             cast:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *               example:
+ *                 - id: "1"
+ *                   name: Christopher Lloyd
+ *                 - id: "2"
+ *                   name: Michael J. Fox
  */
 
 /**
@@ -103,18 +91,35 @@ const routes = express.Router()
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/MovieList"
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/MovieRead"
  *       429:
  *         description: Too many requests by the period
  */
 routes.get("/", rateLimit, (req, res) => {
-  res.status(200).send({
-    "movies": [
-      {"id": "11"}, 
-      {"id": "12"}, 
-      {"id": "13"}
+  res.status(200).send(
+    [
+      {
+        "id": "11", 
+        "title": "Movie A", 
+        "year": 2001, 
+        "cast": [
+          {"id": 45, "name": "Artist Z"},
+          {"id": 46, "name": "Artist X"}
+        ]
+      }, 
+      {
+        "id": "22", 
+        "title": "Movie B", 
+        "year": 2002, 
+        "cast": [
+          {"id": 47, "name": "Artist X"},
+          {"id": 48, "name": "Artist I"}
+        ]
+      }, 
     ]
-  })
+  )
 })
 
 /**
@@ -186,9 +191,9 @@ routes.get("/:movieID", rateLimit, (req, res) => {
     "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
     "year": Math.floor(Math.random() * (2024 - 2020) + 2020), // The maximum is exclusive and the minimum is inclusive
     "cast": [
-      {"id": Math.floor(Math.random() * 100), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": Math.floor(Math.random() * 100), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": Math.floor(Math.random() * 100), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
     ]
   })
 })
