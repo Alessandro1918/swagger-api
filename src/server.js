@@ -2,10 +2,11 @@
 require('dotenv').config()    //JS
 
 const express = require("express")
-// import { moviesRoutes } from "./routes/movies"   //TS
-const moviesRoutes = require("./routes/movies")     //JS
-const authRoutes = require("./routes/auth")
 const swaggerUi = require("swagger-ui-express")
+// import { authRoutes } from "./routes/auth"   //TS
+const authRoutes = require("./routes/auth")     //JS
+const moviesRoutes = require("./routes/movies")
+const artistsRoutes = require("./routes/artists")
 const { swaggerDocs, CSS_URL } = require("./libs/swagger")
 
 const PORT = process.env.PORT || 4000
@@ -17,6 +18,8 @@ app.use(express.json())
 app.use("/users", authRoutes)
 
 app.use("/movies", moviesRoutes)
+
+app.use("/artists", artistsRoutes)
 
 app.use(
   "/api-docs",        //route to serve the documentation (localhost:4000/api-docs)

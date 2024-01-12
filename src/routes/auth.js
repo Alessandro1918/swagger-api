@@ -35,7 +35,7 @@ const routes = express.Router()
  *           application/json:
  *             schema:
  *               properties:
- *                 id:
+ *                 token:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkEiLCJpYXQiOjE2Nzg4MTUwNzQsImV4cCI6MTY3ODgxNTEzNH0.jQKF9Ix1q-3ypW8vhwCfdqHbEWoLrio1ehqS_dT-iWg" 
  *       404:

@@ -45,14 +45,12 @@ const routes = express.Router()
  *         - properties:
  *             cast:
  *               type: array
+ *               description: Array of artistId strings
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *               example: [id: "1", id: "2", id: "3"]   # Property-level example
- *         #- example:                                  # Object-level example
- *         #  ...                                       # Note: I can't use Object-level example if my object has 'readOnly' properties
+ *                 type: string
+ *               example: ["1", "2", "3"]   # Property-level example
+ *         #- example:                      # Object-level example
+ *         #  ...                           # Note: I can't use Object-level example if my object has 'readOnly' properties
  *         - required:
  *           - title
  *           - year
