@@ -5,6 +5,19 @@ const { multerOptions } = require("../libs/multer")
 
 const routes = express.Router()
 
+function generateRandomArtist(artistID) {
+  return ({
+    "id": String(artistID),
+    "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
+    "image": "www...com.br",
+    "movies": [
+      {"id": String(Math.floor(Math.random() * 100)), "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`, "year": Math.floor(Math.random() * (2024 - 2020) + 2020)},
+      {"id": String(Math.floor(Math.random() * 100)), "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`, "year": Math.floor(Math.random() * (2024 - 2020) + 2020)},
+      {"id": String(Math.floor(Math.random() * 100)), "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`, "year": Math.floor(Math.random() * (2024 - 2020) + 2020)}
+    ]
+  })
+}
+
 /**
  * @swagger
  * components:
@@ -26,6 +39,40 @@ const routes = express.Router()
  *           items:
  *             type: string
  *             example: "42"
+ * 
+ *     ArtistRead:
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "11"
+ *           readOnly: true   # Property not writen on the user request, but available at the response. Hence, readOnly
+ *         name:
+ *           type: string
+ *           example: Tom Cruise
+ *         image:
+ *           type: string
+ *           example: www...com.br
+ *         movies:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               year:
+ *                 type: integer
+ *           example:
+ *             - id: "44"
+ *               title: Missão Impossível
+ *               year: 2001
+ *             - id: "55"
+ *               title: Missão Impossível 2
+ *               year: 2002
+ *             - id: "66"
+ *               title: Missão Impossível 3
+ *               year: 2003
  */
 
 /**
@@ -55,7 +102,6 @@ const routes = express.Router()
  *       429:
  *         description: Too many requests by the period
  */
-
 //Image files saved on the server's internal disk by the Multer middleware.
 //This word "image" is the key in the multipart form request body.
 routes.post("/", rateLimit, verifyJwt, multerOptions.array("image"), async (req, res) => {
@@ -90,6 +136,33 @@ routes.post("/", rateLimit, verifyJwt, multerOptions.array("image"), async (req,
     data: data,
     files: req.files,
   })
+})
+
+/**
+ * @swagger
+ * /artists:
+ *   get:
+ *     tags: [ Artists ]
+ *     description: Returns a list of all the artists from the db
+ *     responses:
+ *       200:
+ *         description: List of artists from the db
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/ArtistRead"
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.get("/", rateLimit, (req, res) => {
+  res.status(200).send(
+    [
+      generateRandomArtist("42"),
+      generateRandomArtist("13")
+    ]
+  )
 })
 
 module.exports = routes                  //JS

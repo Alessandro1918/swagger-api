@@ -79,33 +79,6 @@ function generateRandomMovie(movieID) {
 /**
  * @swagger
  * /movies:
- *   get:
- *     tags: [ Movies ]
- *     description: Returns a list of all the movies from the db
- *     responses:
- *       200:
- *         description: List of movies from the db
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: "#/components/schemas/MovieRead"
- *       429:
- *         description: Too many requests by the period
- */
-routes.get("/", rateLimit, (req, res) => {
-  res.status(200).send(
-    [
-      generateRandomMovie("123"),
-      generateRandomMovie("456") 
-    ]
-  )
-})
-
-/**
- * @swagger
- * /movies:
  *   post:
  *     tags: [ Movies ]
  *     description: Saves a new movie in the db
@@ -133,6 +106,33 @@ routes.get("/", rateLimit, (req, res) => {
 routes.post("/", rateLimit, verifyJwt, (req, res) => {
   console.log("username:", req["username"])   //added to the request by the verifyJwt middleware
   res.status(201).send("Movie created on the db")
+})
+
+/**
+ * @swagger
+ * /movies:
+ *   get:
+ *     tags: [ Movies ]
+ *     description: Returns a list of all the movies from the db
+ *     responses:
+ *       200:
+ *         description: List of movies from the db
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/MovieRead"
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.get("/", rateLimit, (req, res) => {
+  res.status(200).send(
+    [
+      generateRandomMovie("123"),
+      generateRandomMovie("456") 
+    ]
+  )
 })
 
 /**
