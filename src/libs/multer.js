@@ -1,3 +1,9 @@
+//api:
+//https://sharklabs.com.br/reactjs-nodejs-tutorial-sobre-file-upload/
+//https://www.bezkoder.com/node-js-express-file-upload/
+//web:
+//https://dev.to/jbrocher/react-tips-tricks-uploading-a-file-with-a-progress-bar-3m5p
+
 const multer = require("multer")
 
 const UPLOADED_DIR = "uploaded/"  //"uploaded" = "uploaded/" = "./uploaded" = root of project dir
