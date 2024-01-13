@@ -9,6 +9,9 @@
  *
  *   - name: Movies
  *     description: Check movie details, edit or create new entries
+ * 
+ *   - name: Files
+ *     description: Check files saved on the server
  */
 
 /**
