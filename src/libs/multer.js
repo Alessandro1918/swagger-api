@@ -8,8 +8,6 @@ const multer = require("multer")
 
 const UPLOADED_DIR = "uploaded/"  //"uploaded" = "uploaded/" = "./uploaded" = root of project dir
 
-console.log(__dirname)
-
 //Acts as a middleware on used routes.
 //Save files sent from frontend requests.
 const multerOptions = multer({
