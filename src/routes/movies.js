@@ -4,6 +4,19 @@ const rateLimit = require("../libs/rateLimit")
 
 const routes = express.Router()
 
+function generateRandomMovie(movieID) {
+  return ({
+    "id": String(movieID),
+    "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
+    "year": Math.floor(Math.random() * (2024 - 2020) + 2020), // The maximum is exclusive and the minimum is inclusive
+    "cast": [
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
+    ]
+  })
+}
+
 /**
  * @swagger
  * components:
@@ -84,24 +97,8 @@ const routes = express.Router()
 routes.get("/", rateLimit, (req, res) => {
   res.status(200).send(
     [
-      {
-        "id": "11", 
-        "title": "Movie A", 
-        "year": 2001, 
-        "cast": [
-          {"id": 45, "name": "Artist Z"},
-          {"id": 46, "name": "Artist X"}
-        ]
-      }, 
-      {
-        "id": "22", 
-        "title": "Movie B", 
-        "year": 2002, 
-        "cast": [
-          {"id": 47, "name": "Artist X"},
-          {"id": 48, "name": "Artist I"}
-        ]
-      }, 
+      generateRandomMovie("123"),
+      generateRandomMovie("456") 
     ]
   )
 })
@@ -163,16 +160,9 @@ routes.post("/", rateLimit, verifyJwt, (req, res) => {
  *         description: Too many requests by the period
  */
 routes.get("/:movieID", rateLimit, (req, res) => {
-  res.status(200).send({
-    "id": String(req.params.movieID),
-    "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
-    "year": Math.floor(Math.random() * (2024 - 2020) + 2020), // The maximum is exclusive and the minimum is inclusive
-    "cast": [
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
-    ]
-  })
+  res.status(200).send(
+    generateRandomMovie(req.params.movieID)
+  )
 })
 
 /**
