@@ -232,5 +232,37 @@ routes.put("/:artistID", rateLimit, verifyJwt, (req, res) => {
   res.status(200).send("Artist updated on the db")
 })
 
+/**
+ * @swagger
+ * /artists/{artistID}:
+ *   delete:
+ *     tags: [ Artists ]
+ *     description: Delete artist from the db
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: artistID
+ *         type: string
+ *         description: id of the artist to be deleted
+ *         required: true
+ *     responses:
+ *       204:
+ *         description: Artist deleted from the db
+ *       400:
+ *         description: User access token missing
+ *       401:
+ *         description: User access token expired
+ *       403:
+ *         description: User does not have necessary permissions to perform this request
+ *       404:
+ *         description: Artist not found
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.delete("/:artistID", rateLimit, verifyJwt, (req, res) => {
+  res.status(204).send("Artist deleted from the db")
+})
+
 module.exports = routes                  //JS
 // export { routes as artistsRoutes }    //TS
