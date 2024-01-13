@@ -165,5 +165,35 @@ routes.get("/", rateLimit, (req, res) => {
   )
 })
 
+/**
+ * @swagger
+ * /artists/{artistID}:
+ *   get:
+ *     tags: [ Artists ]
+ *     description: Returns data of an artist
+ *     parameters:
+ *       - in: path
+ *         name: artistID
+ *         type: string
+ *         description: id of the artist to be returned
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Artist found on the db
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/ArtistRead"
+ *       404:
+ *         description: Artist not found
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.get("/:artistID", rateLimit, (req, res) => {
+  res.status(200).send(
+    generateRandomArtist(req.params.artistID)
+  )
+})
+
 module.exports = routes                  //JS
 // export { routes as artistsRoutes }    //TS
