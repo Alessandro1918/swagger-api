@@ -7,21 +7,7 @@ const routes = express.Router()
 
 /**
  * @swagger
- * tags:
- *   name: Artists
- *   description: Check actors and actresses details, edit or create new entries
- */
-
-/**
- * @swagger
  * components:
- * 
- *   securitySchemes:
- * 
- *     bearerAuth:            # arbitrary name for the security scheme
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
  * 
  *   schemas:
  * 
@@ -72,7 +58,7 @@ const routes = express.Router()
 
 //Image files saved on the server's internal disk by the Multer middleware.
 //This word "image" is the key in the multipart form request body.
-routes.post("/", rateLimit, /*verifyJwt,*/ multerOptions.array("image"), async (req, res) => {
+routes.post("/", rateLimit, verifyJwt, multerOptions.array("image"), async (req, res) => {
   
   //TODO: save the data and the new filename as a new db entry
 

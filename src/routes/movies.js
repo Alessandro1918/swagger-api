@@ -6,21 +6,7 @@ const routes = express.Router()
 
 /**
  * @swagger
- * tags:
- *   name: Movies
- *   description: Check movie details, edit or create new entries
- */
-
-/**
- * @swagger
  * components:
- * 
- *   securitySchemes:
- * 
- *     bearerAuth:            # arbitrary name for the security scheme
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
  * 
  *   schemas:
  * 

@@ -6,13 +6,6 @@ const routes = express.Router()
 
 /**
  * @swagger
- * tags:
- *   name: Auth
- *   description: Verify user credentials
- */
-
-/**
- * @swagger
  * /users/login:
  *   post:
  *     tags: [ Auth ]
