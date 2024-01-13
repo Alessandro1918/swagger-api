@@ -195,5 +195,42 @@ routes.get("/:artistID", rateLimit, (req, res) => {
   )
 })
 
+/**
+ * @swagger
+ * /artists/{artistID}:
+ *   put:
+ *     tags: [ Artists ]
+ *     description: Edit data  of an artist
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: artistID
+ *         type: string
+ *         description: id of the artist to be edited
+ *         required: true
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: "#/components/schemas/ArtistWrite"
+ *     responses:
+ *       200:
+ *         description: Artist updated on the db
+ *       400:
+ *         description: User access token missing
+ *       401:
+ *         description: User access token expired
+ *       403:
+ *         description: User does not have necessary permissions to perform this request
+ *       404:
+ *         description: Artist or one or more movies not found
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.put("/:artistID", rateLimit, verifyJwt, (req, res) => {
+  res.status(200).send("Artist updated on the db")
+})
+
 module.exports = routes                  //JS
 // export { routes as artistsRoutes }    //TS
