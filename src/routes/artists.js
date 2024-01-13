@@ -38,7 +38,10 @@ function generateRandomArtist(artistID) {
  *           description: Array of movieId strings (one id per field)
  *           items:
  *             type: string
- *             example: "42"
+ *           example: 
+ *             - "42"
+ *             - "43"
+ *             - "44"
  * 
  *     ArtistRead:
  *       properties:
