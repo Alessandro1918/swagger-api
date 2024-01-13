@@ -4,23 +4,22 @@ const rateLimit = require("../libs/rateLimit")
 
 const routes = express.Router()
 
-/**
- * @swagger
- * tags:
- *   name: Movies
- *   description: Check movie details, edit or create new entries
- */
+function generateRandomMovie(movieID) {
+  return ({
+    "id": String(movieID),
+    "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
+    "year": Math.floor(Math.random() * (2024 - 2020) + 2020), // The maximum is exclusive and the minimum is inclusive
+    "cast": [
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
+      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
+    ]
+  })
+}
 
 /**
  * @swagger
  * components:
- * 
- *   securitySchemes:
- * 
- *     bearerAuth:            # arbitrary name for the security scheme
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
  * 
  *   schemas:
  * 
@@ -45,14 +44,12 @@ const routes = express.Router()
  *         - properties:
  *             cast:
  *               type: array
+ *               description: Array of artistId strings
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *               example: [id: "1", id: "2", id: "3"]   # Property-level example
- *         #- example:                                  # Object-level example
- *         #  ...                                       # Note: I can't use Object-level example if my object has 'readOnly' properties
+ *                 type: string
+ *               example: ["1", "2", "3"]   # Property-level example
+ *         #- example:                      # Object-level example
+ *         #  ...                           # Note: I can't use Object-level example if my object has 'readOnly' properties
  *         - required:
  *           - title
  *           - year
@@ -78,49 +75,6 @@ const routes = express.Router()
  *                 - id: "2"
  *                   name: Michael J. Fox
  */
-
-/**
- * @swagger
- * /movies:
- *   get:
- *     tags: [ Movies ]
- *     description: Returns a list of all the movies from the db
- *     responses:
- *       200:
- *         description: List of movies from the db
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: "#/components/schemas/MovieRead"
- *       429:
- *         description: Too many requests by the period
- */
-routes.get("/", rateLimit, (req, res) => {
-  res.status(200).send(
-    [
-      {
-        "id": "11", 
-        "title": "Movie A", 
-        "year": 2001, 
-        "cast": [
-          {"id": 45, "name": "Artist Z"},
-          {"id": 46, "name": "Artist X"}
-        ]
-      }, 
-      {
-        "id": "22", 
-        "title": "Movie B", 
-        "year": 2002, 
-        "cast": [
-          {"id": 47, "name": "Artist X"},
-          {"id": 48, "name": "Artist I"}
-        ]
-      }, 
-    ]
-  )
-})
 
 /**
  * @swagger
@@ -156,6 +110,33 @@ routes.post("/", rateLimit, verifyJwt, (req, res) => {
 
 /**
  * @swagger
+ * /movies:
+ *   get:
+ *     tags: [ Movies ]
+ *     description: Returns a list of all the movies from the db
+ *     responses:
+ *       200:
+ *         description: List of movies from the db
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/MovieRead"
+ *       429:
+ *         description: Too many requests by the period
+ */
+routes.get("/", rateLimit, (req, res) => {
+  res.status(200).send(
+    [
+      generateRandomMovie("123"),
+      generateRandomMovie("456") 
+    ]
+  )
+})
+
+/**
+ * @swagger
  * /movies/{movieID}:
  *   get:
  *     tags: [ Movies ]
@@ -179,16 +160,9 @@ routes.post("/", rateLimit, verifyJwt, (req, res) => {
  *         description: Too many requests by the period
  */
 routes.get("/:movieID", rateLimit, (req, res) => {
-  res.status(200).send({
-    "id": String(req.params.movieID),
-    "title": `Movie ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`,
-    "year": Math.floor(Math.random() * (2024 - 2020) + 2020), // The maximum is exclusive and the minimum is inclusive
-    "cast": [
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`},
-      {"id": String(Math.floor(Math.random() * 100)), "name": `Artist ${String.fromCharCode(Math.floor(Math.random() * (91 - 65) + 65))}`}
-    ]
-  })
+  res.status(200).send(
+    generateRandomMovie(req.params.movieID)
+  )
 })
 
 /**
