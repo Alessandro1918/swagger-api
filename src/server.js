@@ -2,6 +2,7 @@
 require('dotenv').config()    //JS
 
 const express = require("express")
+const cors = require("cors")
 const swaggerUi = require("swagger-ui-express")
 // import { authRoutes } from "./routes/auth"   //TS
 const authRoutes = require("./routes/auth")     //JS
@@ -14,6 +15,9 @@ const PORT = process.env.PORT || 4000
 
 const app = express()
 app.use(express.json())
+app.use(cors({
+  origin: process.env.URL_FRONT || "http://localhost:5173"
+}))
 
 app.use("/users", authRoutes)
 app.use("/movies", moviesRoutes)
