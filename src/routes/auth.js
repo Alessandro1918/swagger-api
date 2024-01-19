@@ -35,9 +35,17 @@ const routes = express.Router()
  *         description: User not found or wrong password
  */
 routes.post("/login", rateLimit, (req, res) => {
+
+  //TODO - query user from db
+  const user = {
+    username: "alessandro",
+    password: "1234",
+    role: "admin"
+  }
+
   if (
-    req.body.username !== "alessandro" ||
-    req.body.password !== "1234"
+    req.body.username !== user.username ||
+    req.body.password !== user.password
   ) {
     res
       .status(404)  //NOT_FOUND
@@ -48,7 +56,10 @@ routes.post("/login", rateLimit, (req, res) => {
     .send({
       "token": createJwt(
         JSON.stringify({
-          "username": req.body.username
+          "user": {
+            "username": user.username,
+            "role": user.role
+          }
         })
       ),
     })
