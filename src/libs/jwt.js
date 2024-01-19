@@ -8,15 +8,15 @@ const jwt = require('jsonwebtoken')                             //JS
 //   username: string
 // }
 
-//Signs a JWT access token to be used in further API calls
+//Signs a JWT token to be used in further API calls
 // export function createJwt(payload: string) {     //TS
-function createJwt(payload) {                       //JS
+function createJwt(payload, secret, expiration) {                       //JS
 
   const token = jwt.sign(
     JSON.parse(payload),
-    process.env.ACCESS_TOKEN_SECRET,
+    secret,
     {
-      expiresIn: Number(process.env.ACCESS_TOKEN_EXPIRATION),
+      expiresIn: expiration,
     }
   )
   return token

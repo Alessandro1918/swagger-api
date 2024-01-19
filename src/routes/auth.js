@@ -60,7 +60,9 @@ routes.post("/login", rateLimit, (req, res) => {
             "username": user.username,
             "role": user.role
           }
-        })
+        }),
+        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_EXPIRATION
       ),
     })
 })
