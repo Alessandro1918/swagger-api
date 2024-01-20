@@ -1,5 +1,5 @@
 const express = require("express")
-const { verifyJwt } = require("../libs/jwt")
+const { validateAccessToken } = require("../libs/jwt")
 const rateLimit = require("../libs/rateLimit")
 
 const routes = express.Router()
@@ -103,8 +103,8 @@ function generateRandomMovie(movieID) {
  *       429:
  *         description: Too many requests by the period
  */
-routes.post("/", rateLimit, verifyJwt, (req, res) => {
-  console.log("username:", req["username"])   //added to the request by the verifyJwt middleware
+routes.post("/", rateLimit, validateAccessToken, (req, res) => {
+  // console.log("Data from JWT:", req["user"])   //added to the request by the validateAccessToken middleware
   res.status(201).send("Movie created on the db")
 })
 
@@ -198,7 +198,7 @@ routes.get("/:movieID", rateLimit, (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.put("/:movieID", rateLimit, verifyJwt, (req, res) => {
+routes.put("/:movieID", rateLimit, validateAccessToken, (req, res) => {
   res.status(200).send("Movie updated on the db")
 })
 
@@ -230,7 +230,7 @@ routes.put("/:movieID", rateLimit, verifyJwt, (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.delete("/:movieID", rateLimit, verifyJwt, (req, res) => {
+routes.delete("/:movieID", rateLimit, validateAccessToken, (req, res) => {
   res.status(204).send("Movie deleted from the db")
 })
 
