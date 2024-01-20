@@ -3,6 +3,7 @@ require('dotenv').config()    //JS
 
 const express = require("express")
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
 const swaggerUi = require("swagger-ui-express")
 // import { authRoutes } from "./routes/auth"   //TS
 const authRoutes = require("./routes/auth")     //JS
@@ -16,8 +17,10 @@ const PORT = process.env.PORT || 4000
 const app = express()
 app.use(express.json())
 app.use(cors({
-  origin: process.env.URL_FRONT || "http://localhost:5173"
+  origin: process.env.URL_FRONT || "http://localhost:5173",
+  credentials: true,                //tells browsers whether the server allows cross-origin HTTP requests to include credentials (like cookies)
 }))
+app.use(cookieParser())
 
 app.use("/users", authRoutes)
 app.use("/movies", moviesRoutes)
