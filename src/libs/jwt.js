@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken')                             //JS
 
 //Signs a JWT token to be used in further API calls
 // export function createJwt(payload: string) {     //TS
-function createJwt(payload, secret, expiration) {                       //JS
+function createJwt(payload, secret, expiration) {   //JS
 
   const token = jwt.sign(
     JSON.parse(payload),
@@ -45,4 +45,26 @@ function validateAccessToken(req, res, next) {                                  
   }
 }
 
-module.exports = { createJwt, validateAccessToken }     //JS only. On TS I export each function individually
+//(Very similar to "validateAccessToken", but used by a different route to check for a different token)
+function validateRefreshToken(req, res, next) {
+  // console.log("req.headers:", req.headers)
+  // console.log("req.cookies:", req.cookies)
+  try {
+    const token = req.headers["cookie"]?.split("refreshToken=")[1]
+    if (!token) {
+      res.status(400).send("No token")        //BAD_REQUEST
+    } else {
+      jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
+      next()                                  //I can't just "return" like a function call. This is a middleware; I have to "continue"
+    }
+  } catch (error) {
+    console.log(error.name)
+    if (error.name === "TokenExpiredError") {
+      res.status(401).send("Expired token")   //UNAUTHORIZED
+    } else {
+      res.status(400).send("Invalid token")   //BAD_REQUEST
+    }
+  }
+}
+
+module.exports = { createJwt, validateAccessToken, validateRefreshToken }     //JS only. On TS I export each function individually

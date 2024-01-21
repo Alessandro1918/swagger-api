@@ -1,5 +1,5 @@
 const express = require("express")
-const { createJwt } = require("../libs/jwt")
+const { createJwt, validateRefreshToken } = require("../libs/jwt")
 const rateLimit = require("../libs/rateLimit")
 
 const routes = express.Router()
@@ -9,7 +9,7 @@ const routes = express.Router()
  * /users/login:
  *   post:
  *     tags: [ Auth ]
- *     description: Get user credentials, returns an access token (request body) and a refresh token (request header)
+ *     description: Get user credentials, returns an access token (request body) and a refresh token (request cookie header)
  *     requestBody:
  *       content:
  *         application/json:
@@ -37,7 +37,7 @@ const routes = express.Router()
  *                 accessToken:
  *                   type: string
  *                   description: Token to be used in authenticated API routes
- *                   example: "eyJhbGciOiJIUzI1NiIs..." 
+ *                   example: "eyJhbGciOiJIUzI1NiIs..."
  *       404:
  *         description: User not found or wrong password
  */
@@ -93,6 +93,69 @@ routes.post("/login", rateLimit, (req, res) => {
         maxAge: 24 * 60 * 60 * 1000 //process.env.REFRESH_TOKEN_EXPIRATION = 1day (24h)
       }
     )
+    .send({
+      "accessToken": accessToken
+    })
+})
+
+/**
+ * @swagger
+ * /users/refresh:
+ *   post:
+ *     tags: [ Auth ]
+ *     description:
+ *       "Route to be requested after access token expiration, but with a valid refresh token.</br>
+ *       Returns a new access token, without the need to re-ask user for credentials (username / password).</br>
+ *       Since this route does not return a new refresh token, once the same is expired, user has to login again."
+ *     parameters:
+ *       - in: cookie             #Cookie with name "refreshToken" and value "eyJhbGciOiJIUzI1NiIs..." = 
+ *         name: refreshToken     #Header with name "Cookie" and value "refreshToken=eyJhbGciOiJIUzI1NiIs..."
+ *         schema: 
+ *           type: string
+ *         description: 
+ *           "Token used to request a new (refreshed) access token.</br>
+ *           </br>
+ *           Note for Swagger UI and Swagger Editor users: Cookie authentication is currently not supported for \"Try It Out\" requests due to browser security restrictions.</br>
+ *           To test this route, use the /login route to save the cookie on your browser, and the request will be sent with the cookie no matter what is written in the Swagger UI cookie header param."
+ *         example: "eyJhbGciOiJIUzI1NiIs..."
+ *     responses:
+ *       200:
+ *         description: Provided refresh token is valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                   description: Token to be used in authenticated API routes
+ *                   example: "eyJhbGciOiJIUzI1NiIs..."
+ *       400:
+ *         description: Refresh token missing
+ *       401:
+ *         description: Refresh token expired
+ */
+routes.post("/refresh", rateLimit, validateRefreshToken, (req, res) => {
+
+  //TODO - query user from db
+  const user = {
+    username: "alessandro",
+    password: "1234",
+    role: "admin"
+  }
+
+  const accessToken = createJwt(
+    JSON.stringify({
+      "user": {
+        "username": user.username,
+        "role": user.role
+      }
+    }),
+    process.env.ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_EXPIRATION
+  )
+
+  res
+    .status(200)
     .send({
       "accessToken": accessToken
     })
