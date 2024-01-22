@@ -4,8 +4,8 @@
 const RateLimiter = require('limiter').RateLimiter              //JS
 
 const limiter = new RateLimiter({
-  tokensPerInterval: 1,   //Allow x request by period
-  interval: "second",     //Understands 'second', 'minute', 'day', or a number of milliseconds
+  tokensPerInterval: 60,   //Allow x request by period
+  interval: "minute",     //Understands 'second', 'minute', 'day', or a number of milliseconds
   fireImmediately: true   //The default behaviour is to wait for the duration of the rate limiting that's currently in effect before the promise is resolved, but if you pass in "fireImmediately": true, the promise will be resolved immediately with remainingRequests set to -1
 })
 

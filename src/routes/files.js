@@ -1,5 +1,5 @@
 const express = require("express")
-const { verifyJwt } = require("../libs/jwt")
+const { validateAccessToken } = require("../libs/jwt")
 const rateLimit = require("../libs/rateLimit")
 const { UPLOADED_DIR } = require("../libs/multer")
 const fs = require("fs")
@@ -29,7 +29,7 @@ const routes = express.Router()
  *       429:
  *         description: Too many requests by the period
  */
-routes.get("/", rateLimit, /*verifyJwt,*/ async (req, res) => {
+routes.get("/", rateLimit, /*validateAccessToken,*/ async (req, res) => {
 
   const directoryPath = __dirname + "/../../" + UPLOADED_DIR
 
@@ -67,7 +67,7 @@ routes.get("/", rateLimit, /*verifyJwt,*/ async (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.get('/:filename', rateLimit, /*verifyJwt,*/ async (req, res) => {
+routes.get('/:filename', rateLimit, /*validateAccessToken,*/ async (req, res) => {
 
   const fileName = req.params.filename
 
@@ -112,7 +112,7 @@ routes.get('/:filename', rateLimit, /*verifyJwt,*/ async (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.delete('/:filename', rateLimit, verifyJwt, async (req, res) => {
+routes.delete('/:filename', rateLimit, validateAccessToken, async (req, res) => {
 
   const fileName = req.params.filename
   const directoryPath = __dirname + "/../../" + UPLOADED_DIR

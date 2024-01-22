@@ -36,7 +36,8 @@ Confira online! [https://swagger-api-kappa.vercel.app/api-docs/](https://swagger
 - [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 
 ## 🧊 Cool features
-- Autenticação de usuários com [JWT](https://jwt.io) (login) para uso das rotas autenticadas.
+- Autenticação de usuários (login) com [JWT](https://jwt.io) para uso das rotas autenticadas.
+- Controle de sessão de usuário com <code>accessToken</code>(validade curta (ex.: 5 min)) e <code>refreshToken</code>(revalida sessão automaticamente sem precisar repetir login).
 - Limite de acessos por período (Ex.: 60 requests por minuto).
 - Requisições de envio de dados (JSON) e arquivos (Multipart form).
 
@@ -51,9 +52,10 @@ Confira online! [https://swagger-api-kappa.vercel.app/api-docs/](https://swagger
 ### ▶️ Rodando o App:
 
 ```bash
-  $ cd swagger-api      #change to that directory 
-  $ npm install         #download dependencies to node_modules
-  $ npm run dev         #start the project
+  $ cd swagger-api        #change to that directory
+  $ cp .env.example .env  #create the ".env" file like the ".env.example" file
+  $ npm install           #download dependencies to node_modules
+  $ npm run dev           #start the project
 ```
 
 Consultar a documentação em: [localhost:4000/api-docs](http://localhost:4000/api-docs)

@@ -1,5 +1,5 @@
 const express = require("express")
-const { verifyJwt } = require("../libs/jwt")
+const { validateAccessToken } = require("../libs/jwt")
 const rateLimit = require("../libs/rateLimit")
 const { multerOptions } = require("../libs/multer")
 
@@ -107,7 +107,7 @@ function generateRandomArtist(artistID) {
  */
 //Image files saved on the server's internal disk by the Multer middleware.
 //This word "image" is the key in the multipart form request body.
-routes.post("/", rateLimit, verifyJwt, multerOptions.array("image"), async (req, res) => {
+routes.post("/", rateLimit, validateAccessToken, multerOptions.array("image"), async (req, res) => {
   
   //TODO: save the data and the new filename as a new db entry
 
@@ -231,7 +231,7 @@ routes.get("/:artistID", rateLimit, (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.put("/:artistID", rateLimit, verifyJwt, (req, res) => {
+routes.put("/:artistID", rateLimit, validateAccessToken, (req, res) => {
   res.status(200).send("Artist updated on the db")
 })
 
@@ -263,7 +263,7 @@ routes.put("/:artistID", rateLimit, verifyJwt, (req, res) => {
  *       429:
  *         description: Too many requests by the period
  */
-routes.delete("/:artistID", rateLimit, verifyJwt, (req, res) => {
+routes.delete("/:artistID", rateLimit, validateAccessToken, (req, res) => {
   res.status(204).send("Artist deleted from the db")
 })
 
