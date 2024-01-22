@@ -9,7 +9,7 @@ const routes = express.Router()
  * /users/login:
  *   post:
  *     tags: [ Auth ]
- *     description: Get user credentials, returns an access token (request body) and a refresh token (request cookie header)
+ *     description: Get user credentials, returns an access token (response body) and a refresh token (response cookie header)
  *     requestBody:
  *       content:
  *         application/json:
@@ -116,7 +116,7 @@ routes.post("/login", rateLimit, (req, res) => {
  *           "Token used to request a new (refreshed) access token.</br>
  *           </br>
  *           Note for Swagger UI and Swagger Editor users: Cookie authentication is currently not supported for \"Try It Out\" requests due to browser security restrictions.</br>
- *           To test this route, use the /login route to save the cookie on your browser, and the request will be sent with the cookie no matter what is written in the Swagger UI cookie header param."
+ *           To test this route, use the \"/login\"\" route to save the cookie on your browser, and then the \"/refresh\" request will be sent with the cookie no matter what is written in the Swagger UI cookie header param."
  *         example: "eyJhbGciOiJIUzI1NiIs..."
  *     responses:
  *       200:
@@ -159,6 +159,23 @@ routes.post("/refresh", rateLimit, validateRefreshToken, (req, res) => {
     .send({
       "accessToken": accessToken
     })
+})
+
+/**
+ * @swagger
+ * /users/logout:
+ *   delete:
+ *     tags: [ Auth ]
+ *     description: Finish user session by clearing access/refresh tokens from user's browser
+ *     responses:
+ *       204:
+ *         description: User session finished, user's browser storage cleared
+ */
+routes.delete("/logout", rateLimit, (req, res) => {
+  res
+    .status(204)
+    .clearCookie("refreshToken")
+    .send("Refresh token deleted from user's browser")
 })
 
 module.exports = routes              //JS
