@@ -32,7 +32,7 @@ function validateAccessToken(req, res, next) {                                  
       res.status(400).send("No token")        //BAD_REQUEST
     } else {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-      req.user = decoded.user                 //add user data from JWT to the request uder the "user" key
+      req.user = decoded.user                 //add user data from JWT to the request under the "user" key
       next()                                  //I can't just "return" like a function call. This is a middleware; I have to "continue"
     }
   } catch (error) {

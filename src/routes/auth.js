@@ -106,9 +106,10 @@ routes.post("/login", rateLimit, (req, res) => {
  *     description:
  *       "Route to be requested after access token expiration, but with a valid refresh token.</br>
  *       Returns a new access token, without the need to re-ask user for credentials (username / password).</br>
- *       Since this route does not return a new refresh token, once the same is expired, user has to login again."
+ *       Since this route does not return a new refresh token, once the same is expired, user has to login again.</br>
+ *       OBS: This route is not directly called by the user. It is called by the frontend client (running Axios Interceptor, for ex.) when receiving a '401 - Unauthorized / Expired token' error."
  *     parameters:
- *       - in: cookie             #Cookie with name "refreshToken" and value "eyJhbGciOiJIUzI1NiIs..." = 
+ *       - in: cookie             #Cookie with name "refreshToken" and value "eyJhbGciOiJIUzI1NiIs..." would be the same as
  *         name: refreshToken     #Header with name "Cookie" and value "refreshToken=eyJhbGciOiJIUzI1NiIs..."
  *         schema: 
  *           type: string
@@ -130,7 +131,7 @@ routes.post("/login", rateLimit, (req, res) => {
  *                   description: Token to be used in authenticated API routes
  *                   example: "eyJhbGciOiJIUzI1NiIs..."
  *       400:
- *         description: Refresh token missing
+ *         description: Refresh token missing/invalid
  *       401:
  *         description: Refresh token expired
  */
