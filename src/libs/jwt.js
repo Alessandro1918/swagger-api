@@ -67,4 +67,8 @@ function validateRefreshToken(req, res, next) {
   }
 }
 
-module.exports = { createJwt, validateAccessToken, validateRefreshToken }     //JS only. On TS I export each function individually
+module.exports = { 
+  createJwt, 
+  validateAccessToken, 
+  validateRefreshToken 
+}     //JS only. On TS I export each function individually

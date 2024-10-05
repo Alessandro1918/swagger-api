@@ -1,6 +1,8 @@
 const express = require("express")
 const { createJwt, validateRefreshToken } = require("../libs/jwt")
 const rateLimit = require("../libs/rateLimit")
+const { isHashEquivalent } = require("../libs/bcrypt")
+const { getUser } = require("../queries/getUser")
 
 const routes = express.Router()
 
@@ -23,7 +25,7 @@ const routes = express.Router()
  *                 example: "1234"
  *     responses:
  *       200:
- *         description: User found on the db, provided password is valid
+ *         description: User found on the db, and provided password is valid
  *         headers:
  *           Set-Cookie:
  *             schema:
@@ -39,32 +41,41 @@ const routes = express.Router()
  *                   description: Token to be used in authenticated API routes
  *                   example: "eyJhbGciOiJIUzI1NiIs..."
  *       404:
- *         description: User not found or wrong password
+ *         description:
+ *           "User not found or wrong password.</br>
+ *           OBS: The message is the same in both cases as to not confirm the existence of an account for a person that may not be it's owner."
  */
-routes.post("/login", rateLimit, (req, res) => {
+routes.post("/login", rateLimit, async (req, res) => {
 
-  //TODO - query user from db
-  const user = {
-    username: "alessandro",
-    password: "1234",
-    role: "admin"
-  }
+  const username = req.body["username"]
+  const rows = await getUser(username)
 
-  //check request data with db data
-  if (
-    req.body.username !== user.username ||
-    req.body.password !== user.password
-  ) {
+  //User not found
+  if (rows.length == 0) {
+    console.log("User not found")
     res
       .status(404)  //NOT_FOUND
       .send("User not found or wrong password")
+    return
+  }
+
+  const user = rows[0]
+
+  //Wrong password
+  const isPasswordRigth = await isHashEquivalent(req.body["password"], user["password"])
+  if (!isPasswordRigth) {
+    console.log("Wrong password")
+    res
+      .status(404)  //NOT_FOUND
+      .send("User not found or wrong password")
+    return
   }
 
   const accessToken = createJwt(
     JSON.stringify({
       "user": {
-        "username": user.username,
-        "role": user.role
+        "username": user["username"],
+        "role": user["role"]
       }
     }),
     process.env.ACCESS_TOKEN_SECRET,
@@ -74,7 +85,7 @@ routes.post("/login", rateLimit, (req, res) => {
   const refreshToken = createJwt(
     JSON.stringify({
       "user": {
-        "username": user.username,
+        "username": user["username"],
       }
     }),
     process.env.REFRESH_TOKEN_SECRET,
