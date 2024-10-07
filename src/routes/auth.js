@@ -44,6 +44,8 @@ const routes = express.Router()
  *         description:
  *           "User not found or wrong password.</br>
  *           OBS: The message is the same in both cases as to not confirm the existence of an account for a person that may not be it's owner."
+ *       429:
+ *         description: Too many requests by the period
  */
 routes.post("/login", rateLimit, async (req, res) => {
 
@@ -145,6 +147,8 @@ routes.post("/login", rateLimit, async (req, res) => {
  *         description: Refresh token missing/invalid
  *       401:
  *         description: Refresh token expired
+ *       429:
+ *         description: Too many requests by the period
  */
 routes.post("/refresh", rateLimit, validateRefreshToken, async (req, res) => {
 
@@ -189,6 +193,8 @@ routes.post("/refresh", rateLimit, validateRefreshToken, async (req, res) => {
  *         description:
  *           "This route returns OK whether the user is on the users datababase table or not. If user is found, token is to be sent by email.</br>
  *           OBS: The message is the same in both cases as to not confirm the existence of an account for a person that may not be it's owner."
+ *       429:
+ *         description: Too many requests by the period
  */
 routes.post("/forgotPassword", rateLimit, async (req, res) => {
 
@@ -227,8 +233,7 @@ routes.post("/forgotPassword", rateLimit, async (req, res) => {
  * /users/resetPassword:
  *   post:
  *     tags: [ Auth ]
- *     description:
- *       "Second step of the \"set new password\" flux: save (a hash of) the provided password in the \"users\" database table."
+ *     description: "Second step of the \"set new password\" flux: save (a hash of) the provided password in the \"users\" database table."
  *     requestBody:
  *       content:
  *         application/json:
@@ -249,6 +254,8 @@ routes.post("/forgotPassword", rateLimit, async (req, res) => {
  *         description: Reset password token missing/invalid
  *       401:
  *         description: Reset password token expired
+ *       429:
+ *         description: Too many requests by the period
  */
 routes.post("/resetPassword", rateLimit, validatePasswordToken, async (req, res) => {
   
@@ -287,6 +294,8 @@ routes.post("/resetPassword", rateLimit, validatePasswordToken, async (req, res)
  *     responses:
  *       204:
  *         description: User session finished, user's browser storage cleared
+ *       429:
+ *         description: Too many requests by the period
  */
 routes.delete("/logout", rateLimit, (req, res) => {
   res
