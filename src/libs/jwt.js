@@ -67,4 +67,29 @@ function validateRefreshToken(req, res, next) {
   }
 }
 
-module.exports = { createJwt, validateAccessToken, validateRefreshToken }     //JS only. On TS I export each function individually
+function validatePasswordToken(req, res, next) {
+  try {
+    const token = req.body["token"]
+    if (!token) {
+      res.status(400).send("No token")        //BAD_REQUEST
+    } else {
+      const decoded = jwt.verify(token, process.env.NEW_PASSWORD_TOKEN_SECRET)
+      req.user = decoded.user
+      next()
+    }
+  } catch (error) {
+    console.log(error.name)
+    if (error.name === "TokenExpiredError") {
+      res.status(401).send("Expired token")   //UNAUTHORIZED
+    } else {
+      res.status(400).send("Invalid token")   //BAD_REQUEST
+    }
+  }
+}
+
+module.exports = { 
+  createJwt, 
+  validateAccessToken, 
+  validateRefreshToken, 
+  validatePasswordToken 
+}     //JS only. On TS I export each function individually
